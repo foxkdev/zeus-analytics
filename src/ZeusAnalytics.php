@@ -20,10 +20,10 @@ class ZeusAnalytics{
 
 
   /*
-   *GET VIEWS +TRANSACTIONS??
+   *GET VIEWS VISITS
    *
    */
-  public function getVisits(){ //toda la info de productos necesaria?
+  public function getVisits($url_explode = null){ //toda la info de productos necesaria?
     $id = config('zeus_analytics.id');
     $date = new DateTime('-1 day');
     $date = $date->format('Y-m-d');
@@ -38,14 +38,14 @@ class ZeusAnalytics{
             if ($views = $results->getRows()) {
               // dump($views);die;
                 foreach ($views as $view) {
-                  $data[] = [
-                      'source' => $view[0],
-                      'medium' => $view[1],
-                      'permalink' => $view[2],
-                      'views' => (int)$view[3],
-                  ];
-                    // if (strpos($view[2], '/collection/') === 0) {
-                    // }
+                  if($url_explode == null || strpos($view[2], $url_explode) === 0){
+                    $data[] = [
+                        'source' => $view[0],
+                        'medium' => $view[1],
+                        'permalink' => $view[2],
+                        'views' => (int)$view[3],
+                    ];
+                  }
                 }
             }
             return $data;
