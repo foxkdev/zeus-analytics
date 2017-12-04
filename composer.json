@@ -1,0 +1,13 @@
+{
+    "name": "zeus/analytics",
+    "authors": [
+        {
+            "name": "Carlos Lopez",
+            "email": "cloaction@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+      
+    }
+}
