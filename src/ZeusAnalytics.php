@@ -23,9 +23,9 @@ class ZeusAnalytics{
    *GET VIEWS VISITS
    *
    */
-  public function getVisits($from, $to, $url_explode = null){ //toda la info de productos necesaria?
+  public function getVisits($from, $to, $url_explode = null){ //visitas a urls, fechas en formato date! (Y-m-d)
     $id = config('zeus_analytics.id');
-    
+
     $client = ZeusClient::getClient();
 
     $service = new Google_Service_Analytics($client);
@@ -55,7 +55,39 @@ class ZeusAnalytics{
 		}
 
   }
-  //GET
+  /*
+   *GET VIEWS VISITS IN REALTIME
+   *
+   */
+  public function getRealTime(){
+    $id = config('zeus_analytics.id');
+
+    $client = ZeusClient::getClient();
+
+    $service = new Google_Service_Analytics($client);
+
+    try {
+            $results = $service->data_realtime->get('ga:' . $id, 'rt:activeUsers', ['dimensions' => 'ga:source,ga:medium,rt:pagePath,rt:latitude,rt:longitude', 'max-results' => 10000]);
+            $data = [];
+            if ($views = $results->getRows()) {
+                foreach ($views as $view) {
+                  $data[] = [
+                      'source' => $view[0],
+                      'medium' => $view[1],
+                      'permalink' => $view[2],
+                      'lat' => $view[3],
+                      'long' => $view[4],
+                      'realtime' => $view[5]
+                  ];
+                }
+            }
+            return $data;
+		} catch (Google_Service_Exception $e) {
+			return $e;
+		} catch (Google_Auth_Exception $e) {
+			return $e;
+		}
+  }
 
 }
  ?>
