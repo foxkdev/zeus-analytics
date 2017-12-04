@@ -23,17 +23,16 @@ class ZeusAnalytics{
    *GET VIEWS VISITS
    *
    */
-  public function getVisits($url_explode = null){ //toda la info de productos necesaria?
+  public function getVisits($from, $to, $url_explode = null){ //toda la info de productos necesaria?
     $id = config('zeus_analytics.id');
-    $date = new DateTime('-1 day');
-    $date = $date->format('Y-m-d');
+    
     $client = ZeusClient::getClient();
 
     $service = new Google_Service_Analytics($client);
 
     // dump($service);die;
     try {
-            $results = $service->data_ga->get('ga:' . $id, $date, $date, 'ga:pageviews', ['dimensions' => 'ga:source,ga:medium,ga:pagePath', 'max-results' => 10000]);
+            $results = $service->data_ga->get('ga:' . $id, $from, $to, 'ga:pageviews', ['dimensions' => 'ga:source,ga:medium,ga:pagePath', 'max-results' => 10000]);
             $data = [];
             if ($views = $results->getRows()) {
               // dump($views);die;
