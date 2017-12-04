@@ -1,5 +1,5 @@
 {
-    "name": "zeus/analytics",
+    "name": "kloppz/zeus-analytics-api",
     "authors": [
         {
             "name": "Carlos Lopez",
@@ -8,6 +8,6 @@
     ],
     "minimum-stability": "dev",
     "require": {
-      
+      "php": "^5.3.3 || ^7.0"
     }
 }
